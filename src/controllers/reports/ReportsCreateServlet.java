@@ -59,6 +59,9 @@ public class ReportsCreateServlet extends HttpServlet {
             r.setCreated_at(currentTime);
             r.setUpdated_at(currentTime);
 
+            r.setContent(request.getParameter("content"));
+            r.setLike_count(0);
+
             List<String> errors = ReportValidator.validate(r);
             if(errors.size() > 0) {
                 em.close();
@@ -69,6 +72,7 @@ public class ReportsCreateServlet extends HttpServlet {
 
                 RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/new.jsp");
                 rd.forward(request, response);
+                
             } else {
                 em.getTransaction().begin();
                 em.persist(r);
